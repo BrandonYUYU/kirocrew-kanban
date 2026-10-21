@@ -22,7 +22,7 @@
     "healthCheck": "/health"
   },
   "ui": {
-    "entry": "ui/index.mjs",
+    "entry": "index.mjs",
     "pages": [
       {
         "route": "/apps/kanban",
