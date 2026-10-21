@@ -27,7 +27,7 @@
       {
         "route": "/apps/kanban",
         "label": "Kanban",
-        "icon": "Trello",
+        "icon": "LayoutGrid",
         "group": "Apps"
       }
     ]

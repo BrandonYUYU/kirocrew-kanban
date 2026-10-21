@@ -6,10 +6,33 @@
 
 const React = window.__kirocrew_modules.react
 const { useAppApi } = window.__kirocrew_modules['@kirocrew/app-sdk']
-const { Trello, Plus, Trash2, ChevronLeft, ChevronRight, RefreshCw, X } =
-  window.__kirocrew_modules['lucide-react']
+const _icons = window.__kirocrew_modules['lucide-react'] || {}
 
 const { useState, useEffect, useCallback, createElement: h } = React
+
+// Defensive icon resolver: lucide-react renames/drops icons between versions
+// (e.g. `Trello` was removed). A missing icon must never crash the whole board
+// with React error #130 ("element type is undefined"), so fall back to a tiny
+// inline SVG square for any name the host import map does not expose.
+function icon(...names) {
+  for (const n of names) {
+    if (typeof _icons[n] === 'function' || typeof _icons[n] === 'object') return _icons[n]
+  }
+  return function Fallback({ size = 16 }) {
+    return h('svg', {
+      width: size, height: size, viewBox: '0 0 24 24', fill: 'none',
+      stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round',
+    }, h('rect', { x: 3, y: 3, width: 18, height: 18, rx: 2 }))
+  }
+}
+
+const BoardIcon = icon('LayoutGrid', 'Columns3', 'Kanban', 'Trello')
+const Plus = icon('Plus')
+const Trash2 = icon('Trash2', 'Trash')
+const ChevronLeft = icon('ChevronLeft')
+const ChevronRight = icon('ChevronRight')
+const RefreshCw = icon('RefreshCw', 'RotateCw')
+const X = icon('X')
 
 const COLUMN_ORDER = ['todo', 'doing', 'done']
 const PRIORITY_COLORS = {
@@ -289,7 +312,7 @@ export default function KanbanApp() {
         h(
           'div',
           { className: 'text-2xl font-bold tracking-tight text-text-strong flex items-center gap-2' },
-          h(Trello, { size: 22 }),
+          h(BoardIcon, { size: 22 }),
           'Kanban'
         ),
         h('div', { className: 'text-muted text-sm mt-1' }, 'Your local task board — no account needed')
