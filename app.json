@@ -1,0 +1,43 @@
+{
+  "name": "kanban",
+  "version": "0.1.0",
+  "displayName": "Kanban",
+  "description": "A simple, editable Kanban board — create, edit, and drag cards across To Do / In Progress / Done. Data is stored locally; no account, no external service.",
+  "author": "BrandonYUYU",
+  "tags": [
+    "kanban",
+    "board",
+    "tasks",
+    "productivity"
+  ],
+  "highlights": [
+    "Create, edit, delete and move cards across columns",
+    "To Do / In Progress / Done lanes with per-card priority",
+    "Data stored locally in the app data directory — no credentials, no paid service",
+    "Works instantly offline, no build step"
+  ],
+  "backend": {
+    "entryPoint": "backend/server.py",
+    "port": "auto",
+    "healthCheck": "/health"
+  },
+  "ui": {
+    "entry": "ui/index.mjs",
+    "pages": [
+      {
+        "route": "/apps/kanban",
+        "label": "Kanban",
+        "icon": "Trello",
+        "group": "Apps"
+      }
+    ]
+  },
+  "permissions": {
+    "api": [
+      "/api/board",
+      "/api/cards",
+      "/api/cards/move",
+      "/api/status"
+    ]
+  }
+}
